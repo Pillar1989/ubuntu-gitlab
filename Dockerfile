@@ -71,13 +71,13 @@ RUN mkdir -p "$HOME/bin"
 RUN wget https://files.seeedstudio.com/arduino/arduino-cli_linux_64bit.tar.gz
 RUN tar xf arduino-cli_linux_64bit.tar.gz
 RUN rm arduino-cli_linux_64bit.tar.gz
-RUN mv arduino-cli  $HOME/bin/
+RUN cp arduino-cli  $HOME/bin/
 RUN export PATH="$PATH:$HOME/bin"
 
-RUN arduino-cli core update-index --additional-urls http://files.seeedstudio.com/arduino/package_seeeduino_boards_index.json
+RUN ./arduino-cli core update-index --additional-urls http://files.seeedstudio.com/arduino/package_seeeduino_boards_index.json
 
-RUN arduino-cli core install Seeeduino:samd --additional-urls http://files.seeedstudio.com/arduino/package_seeeduino_boards_index.json
-RUN arduino-cli core install arduino:avr
+RUN ./arduino-cli core install Seeeduino:samd --additional-urls http://files.seeedstudio.com/arduino/package_seeeduino_boards_index.json
+RUN ./arduino-cli core install arduino:avr
 
 
 
