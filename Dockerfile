@@ -26,7 +26,7 @@ RUN apt-get update \
     && apt-get --yes --no-install-recommends install \
         python3 python3-dev \
         python3-pip python3-venv python3-wheel python3-setuptools \
-        build-essential cmake \
+        build-essential cmake wget \
         graphviz git openssh-client \
         libssl-dev libffi-dev \
     && rm -rf /var/lib/apt/lists/*
