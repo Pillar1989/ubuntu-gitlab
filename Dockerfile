@@ -28,7 +28,7 @@ RUN apt-get update \
         python3-pip python3-venv python3-wheel python3-setuptools \
         build-essential cmake wget \
         graphviz git openssh-client \
-        libssl-dev libffi-dev \
+        libssl-dev libffi-dev rsync \
     && rm -rf /var/lib/apt/lists/*
 
 
