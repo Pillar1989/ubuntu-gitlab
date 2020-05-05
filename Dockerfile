@@ -78,6 +78,7 @@ RUN arduino-cli core update-index --additional-urls http://files.seeedstudio.com
 RUN arduino-cli core install Seeeduino:samd --additional-urls http://files.seeedstudio.com/arduino/package_seeeduino_boards_index.json
 RUN arduino-cli core install arduino:avr
 RUN pip3 install mkdocs-material
+RUN pip3 install  mkdocs-minify-plugin
 
 
 
