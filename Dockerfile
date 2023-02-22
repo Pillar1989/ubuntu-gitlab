@@ -1,14 +1,13 @@
-FROM ubuntu:20.04
+FROM ubuntu:22.04
 LABEL mantainer="zuobaozhu.gmail.com"
 
-# -----
-
+# now we can set USER to the 
+# user we just created
 USER root
 ENV DEBIAN_FRONTEND noninteractive
 ENV USER_UID 1000
 ENV USER_GID 1000
 ENV DOCKER_GID 999
-
 
 # Setup and install base system software
 RUN echo "locales locales/locales_to_be_generated multiselect en_US.UTF-8 UTF-8" | debconf-set-selections \
@@ -36,6 +35,8 @@ RUN apt-get update \
 RUN pip3 install --no-cache-dir tox webdev flake8 pep8-naming cryptography \
     && rm -rf ~/.cache/pip
 
+RUN  userdel -f python3
+RUN  groupdel docker
 
 # Create development user
 RUN echo "Creating user and group ..." \
@@ -64,22 +65,20 @@ RUN echo "Creating user and group ..." \
     && echo 'python3 ALL=NOPASSWD: ALL' > /etc/sudoers.d/python3
 
 
+
+# ubuntu:latest does not have sudo
+# fetch it and install it
+RUN apt-get install -y sudo
+RUN apt-get update \
+    && apt-get -y install zstd file liblz4-tool gawk wget git-core diffstat unzip texinfo gcc-multilib build-essential chrpath socat cpio python3-pexpect xz-utils debianutils iputils-ping python3-git python3-jinja2 libegl1-mesa libsdl1.2-dev pylint xterm python3-subunit mesa-common-dev make 
+
 # Install entrypoint
 #COPY docker-entrypoint /usr/local/bin/
 #ENTRYPOINT ["/usr/local/bin/docker-entrypoint"]
-RUN mkdir -p "$HOME/bin"
-RUN wget https://files.seeedstudio.com/arduino/arduino-cli_linux_64bit.tar.gz
-RUN tar xf arduino-cli_linux_64bit.tar.gz
-RUN rm arduino-cli_linux_64bit.tar.gz
-RUN cp arduino-cli  /usr/bin/
 
-RUN arduino-cli core update-index --additional-urls http://files.seeedstudio.com/arduino/package_seeeduino_boards_index.json
-
-RUN arduino-cli core install Seeeduino:samd --additional-urls http://files.seeedstudio.com/arduino/package_seeeduino_boards_index.json
-RUN arduino-cli core install arduino:avr
-RUN pip3 install mkdocs-material
-RUN pip3 install  mkdocs-minify-plugin
 
 
 
 WORKDIR /home/python3
+
+USER python3
